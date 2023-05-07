@@ -1,2 +1,4 @@
 Services
-	-catalogApý = 5011
+	-catalogApý => 5011
+	-identity => 5001
+	PhotoStock => 
