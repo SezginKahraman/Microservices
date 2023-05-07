@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Microservices.Shared.Core_3_1": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51093;http://localhost:51094"
+    }
+  }
+}
