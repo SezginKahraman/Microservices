@@ -5,16 +5,18 @@ using PhotoStock.Dtos;
 
 namespace PhotoStock.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class PhotoController : BaseController
     {
         [HttpPost]
         public async Task<IActionResult> PhotoSave(IFormFile file, CancellationToken token)
         {
+            //While sending photo from postman, make sure that the parameter name in the 'form-data' section has to be the same withe parameter name of the action. !!
+
             if (file != null && file.Length > 0)
             {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", file.FileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","photos", file.FileName);
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
@@ -33,10 +35,9 @@ namespace PhotoStock.Controllers
 
         }
 
-        [HttpPost]
-        public IActionResult PhotoDelete(string photoUrl)
+        public IActionResult PhotoDelete(string photoName)
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", photoUrl);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "photos", photoName);
 
             if (!System.IO.File.Exists(path))
             {
