@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoStock", "Services\Phot
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{978A020D-2B7C-41E9-9C51-5B14FC0FFCC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservices.Services.Basket", "Services\Basket\Microservices.Basket.API\Microservices.Services.Basket.csproj", "{9074A021-C27B-4AD7-ABD6-984D1216FF1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservices.Services.Basket", "Services\Basket\Microservices.Basket.API\Microservices.Services.Basket.csproj", "{9074A021-C27B-4AD7-ABD6-984D1216FF1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
