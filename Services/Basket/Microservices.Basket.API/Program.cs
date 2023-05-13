@@ -45,7 +45,7 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(o =>
 {
     o.Authority = builder.Configuration["IdentityServerURL"];
-    o.Audience = "resource_catalog";
+    o.Audience = "resource_basket";
     o.RequireHttpsMetadata = false;
 });
 
