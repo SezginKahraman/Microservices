@@ -14,7 +14,8 @@ namespace Microservices.IdentityServer
         public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
         {
             new ApiResource("resource_catalog"){Scopes = {"catalog_fullpermission"}},//catalog api
-            new ApiResource("photo_stock"){Scopes = {"photo_stock_fullpermission"}},
+            new ApiResource("resource_photo_stock"){Scopes = {"photo_stock_fullpermission"}},
+            new ApiResource("resource_basket"){Scopes = {"basket_fullpermission"}},
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
 
@@ -40,6 +41,7 @@ namespace Microservices.IdentityServer
                 //new ApiScope("scope2"),
                 new ApiScope("catalog_fullpermission","Catalog API için full erişim"), //permission type
                 new ApiScope("photo_stock_fullpermission","Photo stock için full erişim"),
+                new ApiScope("basket_fullpermission","Basket için full erişim"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
 
@@ -88,7 +90,7 @@ namespace Microservices.IdentityServer
                     AllowOfflineAccess = true,
                     ClientSecrets = {new Secret("secret".Sha512())},
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = { IdentityServerConstants.StandardScopes.Email, IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, IdentityServerConstants.StandardScopes.OfflineAccess 
+                    AllowedScopes = {"basket_full_permission", IdentityServerConstants.StandardScopes.Email, IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, IdentityServerConstants.StandardScopes.OfflineAccess 
                     ,IdentityServerConstants.LocalApi.ScopeName, "roles"},
                     AccessTokenLifetime = 1*60*60,
                     RefreshTokenExpiration = TokenExpiration.Absolute, // when the expiration came, refresh absolutely cannot be used.
