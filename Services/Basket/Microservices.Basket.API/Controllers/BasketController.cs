@@ -14,6 +14,7 @@ namespace Microservices.Services.Basket.Controllers
         private readonly IBasketService _basketService;
         private readonly ISharedIdentityService _sharedIdentityService;
 
+        // Create their dependency injections
         public BasketController(IBasketService basketService, ISharedIdentityService sharedIdentityService)
         {
             _basketService = basketService;
