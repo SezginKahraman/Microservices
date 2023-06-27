@@ -36,6 +36,7 @@ namespace Microservices.Services.Basket.Controllers
             return CreateActionResultInstance(response);
         }
 
+        // call the delete function from redis.
         public async Task<IActionResult> DeleteBasket()
         {
             return CreateActionResultInstance(await _basketService.Delete(_sharedIdentityService.GetUserId));
