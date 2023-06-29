@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<RedisSettings>(builder.Configuration.GetSection("RedisSettings"));
+
+
+//In order to avoid mapping for the userCalims that has been send by the jwt token
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 
 // A connection to the redis will be opened entire life time of the application.
 builder.Services.AddSingleton<RedisService>(serviceProvider =>
