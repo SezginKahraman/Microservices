@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{978A02
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservices.Services.Basket", "Services\Basket\Microservices.Basket.API\Microservices.Services.Basket.csproj", "{9074A021-C27B-4AD7-ABD6-984D1216FF1C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Discount", "Discount", "{0A8E26F2-12DF-4A26-9CB4-31724424E611}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,7 @@ Global
 		{C384E2CD-2238-4580-8470-8065EF4E0A36} = {0F272868-A72E-4E15-8ADA-7B3C0B226CB3}
 		{978A020D-2B7C-41E9-9C51-5B14FC0FFCC2} = {2BBD2B5A-06BD-4A63-B266-E2CE9126F130}
 		{9074A021-C27B-4AD7-ABD6-984D1216FF1C} = {978A020D-2B7C-41E9-9C51-5B14FC0FFCC2}
+		{0A8E26F2-12DF-4A26-9CB4-31724424E611} = {2BBD2B5A-06BD-4A63-B266-E2CE9126F130}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ABDF98F3-C705-44CA-9A8C-B0A77855D0E5}
