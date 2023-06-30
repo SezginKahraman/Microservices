@@ -83,6 +83,7 @@ namespace Microservices.IdentityServer
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = { "catalog_fullpermission", "photo_stock_fullpermission", IdentityServerConstants.LocalApi.ScopeName }
                 },
+                // make a new client for user 
                 new Client
                 {
                     ClientName = "AspNetCoreMvc",
