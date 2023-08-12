@@ -16,6 +16,7 @@ namespace Microservices.IdentityServer
             new ApiResource("resource_catalog"){Scopes = {"catalog_fullpermission"}},//catalog api
             new ApiResource("resource_photo_stock"){Scopes = {"photo_stock_fullpermission"}},
             new ApiResource("resource_basket"){Scopes = {"basket_fullpermission"}},
+            new ApiResource("resource_discount"){Scopes = {"discount_fullpermission","discount_readpermission","discount_writepermission"}},
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
 
@@ -42,6 +43,9 @@ namespace Microservices.IdentityServer
                 new ApiScope("catalog_fullpermission","Catalog API için full erişim"), //permission type
                 new ApiScope("photo_stock_fullpermission","Photo stock için full erişim"),
                 new ApiScope("basket_fullpermission","Basket için full erişim"),
+                new ApiScope("discount_fullpermission","Basket için full erişim"),
+                new ApiScope("discount_readpermission","Basket için okuma erişim"),
+                new ApiScope("discount_writepermission","Basket için yazma erişim"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
 
@@ -80,8 +84,8 @@ namespace Microservices.IdentityServer
                     ClientName = "AspNetCoreMvc",
                     ClientId = "WebMvcClient",
                     ClientSecrets = {new Secret("secret".Sha512())},
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "catalog_fullpermission", "photo_stock_fullpermission", IdentityServerConstants.LocalApi.ScopeName }
+                    AllowedGrantTypes = GrantTypes.ClientCredentials, // this client only can write to discount
+                    AllowedScopes = { "catalog_fullpermission", "photo_stock_fullpermission", "discount_writepermission", IdentityServerConstants.LocalApi.ScopeName }
                 },
                 // make a new client for user side, subscribe it.
                 new Client
@@ -90,8 +94,8 @@ namespace Microservices.IdentityServer
                     ClientId = "WebMvcClientForUser",
                     AllowOfflineAccess = true,
                     ClientSecrets = {new Secret("secret".Sha512())},
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = {"basket_fullpermission", IdentityServerConstants.StandardScopes.Email, IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, IdentityServerConstants.StandardScopes.OfflineAccess 
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, // this client has all access to discount
+                    AllowedScopes = {"basket_fullpermission","discount_fullpermission", IdentityServerConstants.StandardScopes.Email, IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, IdentityServerConstants.StandardScopes.OfflineAccess 
                     ,IdentityServerConstants.LocalApi.ScopeName, "roles"},
                     AccessTokenLifetime = 1*60*60,
                     RefreshTokenExpiration = TokenExpiration.Absolute, // when the expiration came, refresh absolutely cannot be used.
