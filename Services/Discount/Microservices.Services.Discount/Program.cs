@@ -1,5 +1,4 @@
-using Microservices.Services.Basket.Services;
-using Microservices.Services.Basket.Settings;
+using Microservices.Services.Discount.Services;
 using Microservices.Shared.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -11,34 +10,30 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.Configure<RedisSettings>(builder.Configuration.GetSection("RedisSettings"));
+builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
+builder.Services.AddScoped<IDiscountService, DiscountService>();
 
 // when a client make request, the 'sub' keyword must be exist.
 var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 
-//In order to avoid mapping for the userCalims that has been send by the jwt token
-JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+// only read access
+//new AuthorizationPolicyBuilder().RequireClaim("scope", "discount_read");
 
-// A connection to the redis will be opened entire life time of the application.
-builder.Services.AddSingleton<RedisService>(serviceProvider =>
+builder.Services.AddControllers(opt =>
 {
-    var redisSettings = serviceProvider.GetRequiredService<IOptions<RedisSettings>>().Value;
-
-    var redis = new RedisService(redisSettings.Host, redisSettings.Port);
-
-    redis.Connect();
-
-    return redis;
+    // you can add more than one filter. // you can add only read permission policy either.
+    opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
 });
 
-builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
-
-builder.Services.AddScoped<IBasketService, BasketService>();
+//In order to avoid mapping for the userCalims that has been send by the jwt token
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 
 builder.Services.AddAuthentication(options =>
 {
@@ -48,15 +43,8 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(o =>
 {
     o.Authority = builder.Configuration["IdentityServerURL"];
-    o.Audience = "resource_basket";
+    o.Audience = "resource_discount";
     o.RequireHttpsMetadata = false;
-});
-
-
-
-builder.Services.AddControllers(opt =>
-{
-    opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
 });
 
 var app = builder.Build();
@@ -70,9 +58,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 
