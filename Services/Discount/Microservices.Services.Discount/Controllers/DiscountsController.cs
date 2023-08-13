@@ -36,7 +36,7 @@ namespace Microservices.Services.Discount.Controllers
         {
             var userId = sharedIdentityService.GetUserId;
 
-            var discount = await _discountService.GetByCodeAndUserId(code, userId);
+            var discount = await _discountService.GetByCodeAndUserId(code.ToUpper(), userId);
 
             return CreateActionResultInstance(discount);
         }
