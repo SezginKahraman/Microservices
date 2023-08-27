@@ -53,11 +53,11 @@ namespace Microservices.Services.Discount.Services
 
         public async Task<Response<NoContent>> Save(Models.Discount discount)
         {
-            var status = await dbConnection.ExecuteAsync("INSERT INTO discount {userid, rate, code} VALUES(@UserId,@Rate,@Code)", new {UserId = discount.UserId, Rate = discount.Rate, Code = discount.Code});
+            var status = await dbConnection.ExecuteAsync("INSERT INTO discount (userid, rate, code) VALUES(@UserId,@Rate,@Code)", new {UserId = discount.UserId, Rate = discount.Rate, Code = discount.Code});
 
             if (status > 0)
             {
-                return Response<NoContent>.Success(2040);
+                return Response<NoContent>.Success(204);
             }
 
             return Response<NoContent>.Fail("an error occured while adding data to postgreSql", 500);
