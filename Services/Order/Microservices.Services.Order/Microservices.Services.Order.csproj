@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Order\Microservices.Services.Order.Application\Microservices.Services.Order.Application.csproj" />
-    <ProjectReference Include="..\..\..\Shared\Microservices.Shared.Core_3_1\Microservices.Shared.Core_3_1.csproj" />
   </ItemGroup>
 
 
