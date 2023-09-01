@@ -9,11 +9,11 @@ namespace Microservices.Services.Order.Domain.OrderAggregate
 {
     public class Order : Entity, IAggregateRoot
     {
-        public DateTime Created { get; set; }
+        public DateTime Created { get; private set; }
         
-        public Address Address{ get; set; } // if address is marked as [Owned], ef core is going to create entire new table for the address. Else, every property of address will be created a column for order.
+        public Address Address{ get; private set; } // if address is marked as [Owned], ef core is going to create entire new table for the address. Else, every property of address will be created a column for order.
        
-        public string BuyerId{ get; set; }
+        public string BuyerId{ get; private set; }
 
         private readonly List<OrderItem> _orderItems;
 
