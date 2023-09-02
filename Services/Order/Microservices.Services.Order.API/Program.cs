@@ -16,6 +16,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region [ Configuring application ]
+
 #region [ IoC ]
 
 #region [ MediatR ]
@@ -73,6 +75,8 @@ builder.Services.AddControllers(opt =>
 
 #endregion
 
+#endregion [ Configuring application ]
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -86,7 +90,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+#region [ Add authentication ]
+
 app.UseAuthentication();
+
+#endregion [ Authentication ]
 
 app.MapControllers();
 
