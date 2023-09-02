@@ -6,4 +6,4 @@ Services
     basket => 5014  
 	order => 5015	
 	FakePayment => 5016	
-	FakePayment => 5000
+	gateway => 5000
