@@ -3,6 +3,7 @@ using Microservices.Services.Order.Infrastructure;
 using Microservices.Shared.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -61,8 +62,13 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(o =>
 {
     o.Authority = builder.Configuration["IdentityServerURL"];
-    o.Audience = "resource_basket";
+    o.Audience = "resource_order";
     o.RequireHttpsMetadata = false;
+});
+
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
 });
 
 #endregion
