@@ -16,6 +16,13 @@ namespace Microservices.Services.Order.Infrastructure
 
         }
 
+        public override int SaveChanges()
+        {
+            // to throw events
+
+            return base.SaveChanges();
+        }
+
         public DbSet<Domain.OrderAggregate.Order> Orders { get; set; }
 
         public DbSet<Domain.OrderAggregate.OrderItem> OrderItems { get; set; }
