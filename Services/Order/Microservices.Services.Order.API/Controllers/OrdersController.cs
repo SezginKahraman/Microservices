@@ -29,11 +29,20 @@ namespace Microservices.Services.Order.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveOrder(CreateOrderCommand command)
+        public async Task<IActionResult> SaveOrder([FromBody] CreateOrderCommand command)
         {
-            var response = await _mediator.Send(command);
+            try
+            {
+                var response = await _mediator.Send(command);
+                return CreateActionResultInstance(response);
 
-            return CreateActionResultInstance(response);
+
+            }
+            catch (Exception)
+            {
+                return new JsonResult(null);
+            }
+
         }
 
     }
