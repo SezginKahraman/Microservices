@@ -50,7 +50,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservices.Services.Orde
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FakePayment", "FakePayment", "{6B76A5A2-385A-44FE-B205-BB6C0B34887C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservices.Services.Basket", "Services\FakePayment\Microservices.Services.Basket\Microservices.Services.Basket.csproj", "{E359A3F7-42D0-4380-B7AC-1213D97E7B4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservices.Services.FakePayment", "Services\FakePayment\Microservices.Services.Basket\Microservices.Services.FakePayment.csproj", "{E359A3F7-42D0-4380-B7AC-1213D97E7B4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

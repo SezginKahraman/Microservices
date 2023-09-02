@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Microservices.Services.Order.API.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController] // if the api controller is not written, you need to write [FromBody] for method to catch the request correctly. Else, it is not working.
     public class OrdersController : BaseController
     {
         private readonly IMediator _mediator;
@@ -29,7 +30,7 @@ namespace Microservices.Services.Order.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveOrder([FromBody] CreateOrderCommand command)
+        public async Task<IActionResult> SaveOrder(CreateOrderCommand command) 
         {
             try
             {

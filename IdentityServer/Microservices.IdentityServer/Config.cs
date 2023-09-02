@@ -18,6 +18,7 @@ namespace Microservices.IdentityServer
             new ApiResource("resource_basket"){Scopes = {"basket_fullpermission"}},
             new ApiResource("resource_discount"){Scopes = {"discount_fullpermission","discount_readpermission","discount_writepermission"}},
               new ApiResource("resource_order"){Scopes = {"order_fullpermission" } },
+              new ApiResource("resource_fakepayment"){Scopes = { "fakepayment_fullpermission" } },
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
 
@@ -45,6 +46,7 @@ namespace Microservices.IdentityServer
                 new ApiScope("photo_stock_fullpermission","Photo stock için full erişim"),
                 new ApiScope("basket_fullpermission","Basket için full erişim"),
                 new ApiScope("order_fullpermission","Order için full erişim"),
+                new ApiScope("fakepayment_fullpermission","Fakepayment için full erişim"),
                 new ApiScope("discount_fullpermission","Basket için full erişim"),
                 new ApiScope("discount_readpermission","Basket için okuma erişim"),
                 new ApiScope("discount_writepermission","Basket için yazma erişim"),
@@ -97,7 +99,7 @@ namespace Microservices.IdentityServer
                     AllowOfflineAccess = true,
                     ClientSecrets = {new Secret("secret".Sha512())},
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, // this client has all access to discount
-                    AllowedScopes = {"basket_fullpermission","discount_fullpermission","order_fullpermission", IdentityServerConstants.StandardScopes.Email, IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, IdentityServerConstants.StandardScopes.OfflineAccess 
+                    AllowedScopes = {"basket_fullpermission","discount_fullpermission","order_fullpermission", "fakepayment_fullpermission",IdentityServerConstants.StandardScopes.Email, IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, IdentityServerConstants.StandardScopes.OfflineAccess 
                     ,IdentityServerConstants.LocalApi.ScopeName, "roles"},
                     AccessTokenLifetime = 1*60*60,
                     RefreshTokenExpiration = TokenExpiration.Absolute, // when the expiration came, refresh absolutely cannot be used.
