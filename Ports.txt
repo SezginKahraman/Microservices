@@ -5,4 +5,5 @@ Services
 	Discount => 5013
     basket => 5014  
 	order => 5015	
-	FakePayment => 5016
+	FakePayment => 5016	
+	FakePayment => 5000
