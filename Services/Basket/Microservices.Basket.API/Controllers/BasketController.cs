@@ -13,7 +13,7 @@ namespace Microservices.Services.Basket.Controllers
     {
         private readonly IBasketService _basketService;
         private readonly ISharedIdentityService _sharedIdentityService;
-
+    
         // Create their dependency injections
         public BasketController(IBasketService basketService, ISharedIdentityService sharedIdentityService)
         {
@@ -24,9 +24,6 @@ namespace Microservices.Services.Basket.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBasket()
         {
-
-            var claims = User.Claims;
-
              // get the result from redis servise
             return CreateActionResultInstance(await _basketService.GetBasket(_sharedIdentityService.GetUserId));
         }
@@ -40,6 +37,7 @@ namespace Microservices.Services.Basket.Controllers
         }
 
         // call the delete function from redis.
+        [HttpDelete]
         public async Task<IActionResult> DeleteBasket()
         {
             return CreateActionResultInstance(await _basketService.Delete(_sharedIdentityService.GetUserId));

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\Order\Microservices.Services.Order.Doman\Microservices.Services.Order.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\Order\Microservices.Services.Order.Infrastructure\Microservices.Services.Order.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\Microservices.Shared.Core_3_1\Microservices.Shared.Core_3_1.csproj" />
+    <ProjectReference Include="..\..\Shared\Microservices.Shared\Microservices.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
