@@ -1,7 +1,12 @@
+using Microservices.UI.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// whenever i call serviceApiSettings from the IOptions pattern, the data will be set from the appSettingFile with the section of ServiceApiSettings.
+builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
 
 var app = builder.Build();
 
