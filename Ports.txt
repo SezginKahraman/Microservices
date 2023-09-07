@@ -1,9 +1,10 @@
 Services
-	-catalogApý => 5011
-	-identity => 5001
-	PhotoStock => 5012
-	Discount => 5013
-    basket => 5014  
-	order => 5015	
-	FakePayment => 5016	
-	gateway => 5000
+	- identity => localhost:5001
+	- UI => localhost:5010
+	- catalogApý => localhost:5011
+	- PhotoStock => localhost:5012
+	- Discount => localhost:5013
+    - basket => localhost:5014  
+	- order => localhost:5015	
+	- FakePayment => localhost:5016	
+	- gateway => localhost:5000
