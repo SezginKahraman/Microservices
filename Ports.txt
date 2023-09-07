@@ -2,5 +2,8 @@ Services
 	-catalogApý => 5011
 	-identity => 5001
 	PhotoStock => 5012
-	basket => 5013
-    basket => 5015
+	Discount => 5013
+    basket => 5014  
+	order => 5015	
+	FakePayment => 5016	
+	gateway => 5000

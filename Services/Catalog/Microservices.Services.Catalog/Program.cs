@@ -55,6 +55,28 @@ builder.Services.AddAuthentication(options =>
     //};
 });
 
+#region [ Get Service Provider and create default categories ]
+
+using (var scope = builder.Services.BuildServiceProvider().CreateScope())
+{
+    // get proiver
+    var serviceProiver = scope.ServiceProvider;
+
+    // get category service
+    var categoryService = serviceProiver.GetRequiredService<ICategoryService>();
+
+    // if there is no category, create defaults,
+    if (!categoryService.GetAllAsync().Result.Data.Any())
+    {
+        categoryService.CreateAsync(new Microservices.Services.Catalog.Dtos.CategoryDto() { Name = "Asp.Net" }).Wait();
+        categoryService.CreateAsync(new Microservices.Services.Catalog.Dtos.CategoryDto() { Name = "C#" }).Wait();
+        categoryService.CreateAsync(new Microservices.Services.Catalog.Dtos.CategoryDto() { Name = "Docker" }).Wait();
+    }
+
+}
+
+#endregion 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
