@@ -7,6 +7,7 @@ builder.Services.AddControllersWithViews();
 
 // whenever i call serviceApiSettings from the IOptions pattern, the data will be set from the appSettingFile with the section of ServiceApiSettings.
 builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
+builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 
 var app = builder.Build();
 

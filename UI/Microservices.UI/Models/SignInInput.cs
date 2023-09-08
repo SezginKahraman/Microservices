@@ -11,6 +11,6 @@ namespace Microservices.UI.Models
         public string Password { get; set; }
 
         [DisplayName("Beni Hatırla")]
-        public string IsRemember { get; set; }
+        public bool IsRemember { get; set; }
     }
 }
