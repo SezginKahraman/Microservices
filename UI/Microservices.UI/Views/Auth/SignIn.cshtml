@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model SignInInput
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        Üye Girişi
+                    </h5>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <form asp-controller="Auth" asp-action="SignIn" method="post">
+                        <div class="form-group">
+                            <label asp-for="Email" >Email address</label>
+                            <input asp-for="Email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                            <span class="text-danger" asp-validation-for="Email"></span>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password">Password</label>
+                            <input type="password" asp-for="Password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <span class="text-danger" asp-validation-for="Password"></span>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" asp-for="IsRemember" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" asp-for="IsRemember">Check me out</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
