@@ -1,6 +1,7 @@
 using Microservices.UI.Models;
 using Microservices.UI.Services;
 using Microservices.UI.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,14 @@ builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection(
 builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient<IIdentityService, IdentityService>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts =>
+{
+    opts.LoginPath = "Auth/SignIn";
+    opts.ExpireTimeSpan = TimeSpan.FromDays(60);
+    opts.SlidingExpiration = true;
+    opts.Cookie.Name = "webcookie";
+
+});
 
 var app = builder.Build();
 
@@ -28,6 +37,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
