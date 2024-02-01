@@ -2,6 +2,7 @@ using Microservices.UI.Models;
 using Microservices.UI.Services;
 using Microservices.UI.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
 builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 builder.Services.AddHttpContextAccessor();
+
+var serviceApiSettings = builder.Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
+
 builder.Services.AddHttpClient<IIdentityService, IdentityService>();
+builder.Services.AddHttpClient<IUserService, UserService>(opt =>
+{
+    opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
+});
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts =>
 {
     opts.LoginPath = "/Auth/SignIn";
