@@ -54,7 +54,7 @@ namespace Microservices.IdentityServer.Controllers
 
             if (user == null) return BadRequest();
 
-            return Ok(new {Id = user.Id, UserName = user.UserName, City = user.City});
+            return Ok(new {Id = user.Id, UserName = user.UserName, City = user.City, Email = user.Email});
         }
     }
 }
