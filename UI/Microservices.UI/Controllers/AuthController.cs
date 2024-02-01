@@ -28,7 +28,7 @@ namespace Microservices.UI.Controllers
 
 
             var response = await _identityService.SignIn(signInInput);
-            response = new();
+
             if (!response.IsSuccessfull)
             {
                 response.Errors = new() { "abc", "dsacsa" };

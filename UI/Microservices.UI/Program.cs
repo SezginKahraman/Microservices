@@ -14,11 +14,10 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient<IIdentityService, IdentityService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts =>
 {
-    opts.LoginPath = "Auth/SignIn";
+    opts.LoginPath = "/Auth/SignIn";
     opts.ExpireTimeSpan = TimeSpan.FromDays(60);
     opts.SlidingExpiration = true;
     opts.Cookie.Name = "webcookie";
-
 });
 
 var app = builder.Build();
@@ -36,9 +35,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
-
 app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

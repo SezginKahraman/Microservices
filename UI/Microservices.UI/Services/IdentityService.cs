@@ -33,14 +33,78 @@ namespace Microservices.UI.Services
             _serviceApiSettings = optionsService.Value;
         }
 
-        public Task<OAuthTokenResponse> GetAccessTokenByRefreshToken()
+        public async Task<TokenResponse> GetAccessTokenByRefreshToken()
         {
-            throw new NotImplementedException();
+            var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest()
+            {
+                Address = _serviceApiSettings.BaseUri,
+                Policy = new DiscoveryPolicy() { RequireHttps = false }
+            });
+
+            if (discovery.IsError)
+            {
+                throw discovery.Exception;
+            }
+
+            var refreshToken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest()
+            {
+                ClientId = _clientSettings.WebClientForUser.ClientId,
+                ClientSecret = _clientSettings.WebClientForUser.ClientSecret,
+                RefreshToken = refreshToken,
+                Address = discovery.TokenEndpoint
+            };
+
+            var token = await _httpClient.RequestRefreshTokenAsync(refreshTokenRequest);
+
+            if (token.IsError)
+            {
+                return null;
+            }
+
+           var authenticationTokens = new List<AuthenticationToken>() { new AuthenticationToken { Name = OpenIdConnectParameterNames.AccessToken, Value = token.AccessToken },
+            new AuthenticationToken { Name = OpenIdConnectParameterNames.RefreshToken, Value = token.RefreshToken },
+            new AuthenticationToken { Name = OpenIdConnectParameterNames.ExpiresIn, Value = DateTime.Now.AddSeconds(token.ExpiresIn).ToString("o", CultureInfo.InvariantCulture) }};
+
+            var authenticationResult = await _httpContextAccessor.HttpContext.AuthenticateAsync();
+
+            var properties = authenticationResult.Properties;
+
+            properties.StoreTokens(authenticationTokens);
+
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, authenticationResult.Principal, properties);
+
+            return token;
         }
 
-        public Task RevokeRefreshToken()
+        public async Task RevokeRefreshToken()
         {
-            throw new NotImplementedException();
+            var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest()
+            {
+                Address = _serviceApiSettings.BaseUri,
+                Policy = new DiscoveryPolicy() { RequireHttps = false }
+            });
+
+            if (discovery.IsError)
+            {
+                throw discovery.Exception;
+            }
+
+            var refreshToken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            TokenRevocationRequest tokenRevocationRequest = new()
+            {
+                Address = discovery.RevocationEndpoint,
+                ClientId = _clientSettings.WebClientForUser.ClientId,
+                ClientSecret = _clientSettings.WebClientForUser.ClientSecret,
+                Token = refreshToken,
+                TokenTypeHint = "refresh_token"
+            }; 
+
+            await _httpClient.RevokeTokenAsync(tokenRevocationRequest);
+
+            // access token cannot be revoked. Only refresh one can be revoked.
         }
 
         public async Task<Response<bool>> SignIn(SignInInput signInInput)
@@ -78,7 +142,7 @@ namespace Microservices.UI.Services
             var userInfoRequest = new UserInfoRequest()
             {
                 Token = token.AccessToken,
-                Address = discovery.TokenEndpoint,
+                Address = discovery.UserInfoEndpoint,
             };
 
             var userInfo = await _httpClient.GetUserInfoAsync(userInfoRequest);
@@ -101,7 +165,7 @@ namespace Microservices.UI.Services
 
             authenticationProperties.IsPersistent = signInInput.IsRemember;
 
-            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AccessDeniedPath, claimsPrincipal, authenticationProperties);
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
 
             return Response<bool>.Success(200);
         }
