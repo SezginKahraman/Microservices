@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model List<CourseViewModel>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Kurslar</h5>
+                    @if (Model.Any())
+                    {
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Resim</th>
+                                    <th>Kurs ismi</th>
+                                    <th>Fiyat</th>
+                                    <th>Süre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var course in Model)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>@course.Name</td>
+                                        <td>@course.Price</td>
+                                        <td>@course.FeatureViewModel.Duration</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }else{
+                        <div class="alert alert-info">
+                            Kayıtlı Kurs Bulunamadı
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
