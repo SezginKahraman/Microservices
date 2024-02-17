@@ -10,15 +10,49 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+#region [ IoC Containers ]
+
+#region [ Scoping ]
+
+#region [ Handlers ]
+
 builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddScoped<ClientCredentialTokenHandler>();
+
+#endregion [ Handlers ]
+
+#region [ Identity Service ]
+
 builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
+
+#endregion [ Identity Service  ]
+
+#endregion [ Scoping ]
+
+#region [ AppSettings ]
+
 builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
+
 builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
-builder.Services.AddHttpContextAccessor();
 
 var serviceApiSettings = builder.Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
 
+#endregion [ AppSettings ]
+
+#region [ Http ]
+
+#region [ Context ]
+
+builder.Services.AddHttpContextAccessor();
+
+#endregion [ Context ]
+
+#region [ Client ]
+
 builder.Services.AddHttpClient<IIdentityService, IdentityService>();
+
 builder.Services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
 
 builder.Services.AddHttpClient<IUserService, UserService>(opt =>
@@ -26,10 +60,17 @@ builder.Services.AddHttpClient<IUserService, UserService>(opt =>
     opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
+// whenever httpclient object is used in catalog service, its base address will be defined, and handler will add to its header the accessToken before the request.
 builder.Services.AddHttpClient<ICatalogService, CatalogService>(opt =>
 {
     opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Catalog.Path}");
-});
+}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
+
+builder.Services.AddAccessTokenManagement();
+
+#endregion [ Client ]
+
+#region [ Auth ]
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts =>
 {
@@ -38,6 +79,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     opts.SlidingExpiration = true;
     opts.Cookie.Name = "webcookie";
 });
+
+#endregion [ Auth ]
+
+#endregion [ Http ]
+
+#endregion [ IoC Containers ]
 
 var app = builder.Build();
 

@@ -2,6 +2,7 @@
 using Microservices.UI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Microservices.UI.Controllers
 {
@@ -20,6 +21,15 @@ namespace Microservices.UI.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _catalogService.GetAllCourseByUserIdAsync(_sharedIdentityService.GetUserId));
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            var categories = await _catalogService.GetAllCategoriesAsync();
+
+            ViewBag.categoryList = new SelectList(categories, "Id", "Name");
+
+            return View();
         }
     }
 }
