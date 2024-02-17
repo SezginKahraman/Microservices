@@ -4,6 +4,7 @@ using Microservices.UI.Models.Catalog;
 using Microservices.UI.Models.Catalog.Inputs;
 using Microservices.UI.Services.Interfaces;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace Microservices.UI.Services
 {
@@ -85,7 +86,7 @@ namespace Microservices.UI.Services
         public async Task<List<CategoryViewModel>> GetAllCategoriesAsync()
         {
             // https:localhost:5000/services/catalog/courses
-            var catalogResponse = await _httpClient.GetAsync("categories");
+            var catalogResponse = await _httpClient.GetAsync("category/getallcategories");
 
             if (!catalogResponse.IsSuccessStatusCode)
             {

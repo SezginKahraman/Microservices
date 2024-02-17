@@ -1,4 +1,5 @@
 ﻿using Microservices.Shared.Services;
+using Microservices.UI.Models.Catalog.Inputs;
 using Microservices.UI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,21 @@ namespace Microservices.UI.Controllers
             ViewBag.categoryList = new SelectList(categories, "Id", "Name");
 
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CourseCreateInput courseCreateInput)
+        {
+            var categories = await _catalogService.GetAllCategoriesAsync();
+
+            if (!ModelState.IsValid) return View();
+
+            courseCreateInput.UserId = _sharedIdentityService.GetUserId;
+
+            await _catalogService.CreateCourseAsync(courseCreateInput);
+
+            return RedirectToAction(nameof(Index));
+
         }
     }
 }
