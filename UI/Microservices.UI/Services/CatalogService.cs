@@ -5,20 +5,32 @@ using Microservices.UI.Models.Catalog.Inputs;
 using Microservices.UI.Services.Interfaces;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Microservices.UI.Helpers;
 
 namespace Microservices.UI.Services
 {
     public class CatalogService : ICatalogService
     {
         private readonly HttpClient _httpClient;
+        private readonly IPhotoStockService _photoStockService;
+        private readonly PhotoHelper _photoHelper;
 
-        public CatalogService(HttpClient client)
+        public CatalogService(HttpClient client, IPhotoStockService photoStockService, PhotoHelper helper)
         {
             _httpClient = client;
+            _photoStockService = photoStockService;
+            _photoHelper = helper;
         }
 
         public async Task<bool> CreateCourseAsync(CourseCreateInput courseCreateInput)
         {
+            var photoResult = await _photoStockService.UploadPhoto(courseCreateInput.PhotoFile);
+
+            if (photoResult != null)
+            {
+                courseCreateInput.Picture = photoResult.Url;
+            }
+
             var courseResponse = await _httpClient.PostAsJsonAsync<CourseCreateInput>("course/addcourse", courseCreateInput);
 
             return courseResponse.IsSuccessStatusCode;
@@ -51,6 +63,11 @@ namespace Microservices.UI.Services
 
             var successResponse = await courseResponse.Content.ReadFromJsonAsync<Response<List<CourseViewModel>>>();
 
+            successResponse.Data.ForEach(t =>
+            {
+                t.Picture = _photoHelper.GetPhotoStockUrl(t.Picture);
+            });
+
             return successResponse.Data;
         }
        
@@ -65,6 +82,11 @@ namespace Microservices.UI.Services
             }
 
             var successResponse = await courseResponse.Content.ReadFromJsonAsync<Response<List<CourseViewModel>>>();
+
+            successResponse.Data.ForEach(t =>
+            {
+                t.Picture = _photoHelper.GetPhotoStockUrl(t.Picture);
+            });
 
             return successResponse.Data;
         }

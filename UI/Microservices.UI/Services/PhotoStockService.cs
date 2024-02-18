@@ -1,4 +1,5 @@
-﻿using Microservices.UI.Models.PhotoStocks;
+﻿using Microservices.Shared.Dtos;
+using Microservices.UI.Models.PhotoStocks;
 using Microservices.UI.Services.Interfaces;
 
 namespace Microservices.UI.Services
@@ -18,25 +19,23 @@ namespace Microservices.UI.Services
 
             var randomileName = Guid.NewGuid().ToString() + Path.GetExtension(file.Name);
 
-            var responseViewModel = new PhotoViewModel();
+            using MemoryStream memoryStream = new MemoryStream();
 
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
+            await file.CopyToAsync(memoryStream);
 
-                var multiPartContent = new MultipartFormDataContent();
+            var multiPartContent = new MultipartFormDataContent();
 
-                multiPartContent.Add(new ByteArrayContent(memoryStream.ToArray()), "file", randomileName);
+            multiPartContent.Add(new ByteArrayContent(memoryStream.ToArray()), "file", randomileName);
 
-                var response = await _httpClient.PostAsync("photo/PhotoSave", multiPartContent);
+            var response = await _httpClient.PostAsync("photo/PhotoSave", multiPartContent);
 
-                if (!response.IsSuccessStatusCode) return null;
+            if (!response.IsSuccessStatusCode) return null;
 
-                responseViewModel = await response.Content.ReadFromJsonAsync<PhotoViewModel>();
-            }
+            var responsePhoto = await response.Content.ReadFromJsonAsync<Response<PhotoViewModel>>();
 
-            return responseViewModel;
+            return responsePhoto.Data;
         }
+
 
         public async Task<bool> DeletePhoto(string photoUrl)
         {

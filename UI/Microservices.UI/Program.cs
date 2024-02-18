@@ -1,5 +1,6 @@
 using Microservices.Shared.Services;
 using Microservices.UI.Handler;
+using Microservices.UI.Helpers;
 using Microservices.UI.Models;
 using Microservices.UI.Services;
 using Microservices.UI.Services.Interfaces;
@@ -14,6 +15,12 @@ builder.Services.AddControllersWithViews();
 #region [ IoC Containers ]
 
 #region [ Scoping ]
+
+#region Helpers
+
+builder.Services.AddSingleton<PhotoHelper>();
+
+#endregion
 
 #region [ Handlers ]
 

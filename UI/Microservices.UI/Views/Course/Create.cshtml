@@ -20,27 +20,32 @@
                     </div>
                         
                     <div class="mb-3">
-                        <label asp-for="Name" class="form-label" asp-for="CategoryId"></label>
+                        <label asp-for="Name" class="form-label"></label>
                         <input asp-for="Name" class="form-control" />
                         <span class="text-danger" asp-validation-for="Name"></span>
                     </div>
                         
                     <div class="mb-3">
-                        <label asp-for="Price" class="form-label" asp-for="Price"></label>
+                        <label asp-for="Price" class="form-label"></label>
                         <input asp-for="Price" class="form-control" />
                         <span class="text-danger" asp-validation-for="Price"></span>
                     </div>
                         
                     <div class="mb-3">
-                        <label asp-for="Description" class="form-label" asp-for="Description"></label>
+                        <label asp-for="Description" class="form-label"></label>
                         <input asp-for="Description" class="form-control" />
                         <span class="text-danger" asp-validation-for="Description"></span>
                     </div>
                         
                     <div class="mb-3">
-                        <label asp-for="Feature.Duration" class="form-label" asp-for="Feature.Duration"></label>
+                        <label asp-for="Feature.Duration" class="form-label"></label>
                         <input asp-for="Feature.Duration" class="form-control" />
                         <span class="text-danger" asp-validation-for="Feature.Duration"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="PhotoFile" class="form-label"></label>
+                        <input type="file" asp-for="PhotoFile" class="form-control" />
                     </div>
                     <button type="submit" class="btn btn-success">Ekle</button>
                 </form>

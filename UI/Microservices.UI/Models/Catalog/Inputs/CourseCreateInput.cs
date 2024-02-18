@@ -27,5 +27,8 @@ namespace Microservices.UI.Models.Catalog.Inputs
         [Display(Name = "Kategori")]
         [Required]
         public string CategoryId { get; set; }
+
+        [Display(Name = "Kurs Resmi")]
+        public IFormFile PhotoFile {get; set; }
     }
 }
