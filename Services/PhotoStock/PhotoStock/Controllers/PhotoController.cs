@@ -23,7 +23,7 @@ namespace PhotoStock.Controllers
                     await file.CopyToAsync(stream, token);
                 }
 
-                var returnPath = "photos/" + file.FileName;
+                var returnPath = file.FileName;
 
                 PhotoDto photo = new() { URL = returnPath };
 
