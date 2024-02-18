@@ -20,7 +20,7 @@ namespace Microservices.Services.Catalog.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCoursesByUserId(string id)
         {
-            var response = await _courseService.GetByIdAsync(id);
+            var response = await _courseService.GetByUserIdAsync(id);
 
             return CreateActionResultInstance(response);
         }
@@ -61,7 +61,7 @@ namespace Microservices.Services.Catalog.Controllers
             return CreateActionResultInstance(response);
         }
 
-        [Route("deletecourse")]
+        [Route("deletecourse/{id}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {

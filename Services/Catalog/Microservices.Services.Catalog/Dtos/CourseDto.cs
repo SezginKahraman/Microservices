@@ -22,7 +22,7 @@ namespace Microservices.Services.Catalog.Dtos
 
         public DateTime Updated { get; set; }
 
-        public FeatureDto FeatureDto { get; set; }
+        public FeatureDto Feature { get; set; }
 
         public string CategoryId { get; set; }
 

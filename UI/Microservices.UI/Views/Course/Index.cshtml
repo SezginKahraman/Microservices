@@ -20,6 +20,9 @@
                                     <th>Kurs ismi</th>
                                     <th>Fiyat</th>
                                     <th>Süre</th>
+                                    <th>Kategori</th>
+                                    <th>Güncelle</th>
+                                    <th>Sil</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,12 +32,17 @@
                                         <td></td>
                                         <td>@course.Name</td>
                                         <td>@course.Price</td>
-                                        <td>@course.FeatureViewModel.Duration</td>
+                                        <td>@course.Feature?.Duration</td>
+                                        <td>@course.CategoryViewModel?.Name</td>
+                                        <td><a asp-controller="Course" asp-action="Update" asp-route-id="@course.Id" class="btn btn-success btn-sm">Güncelle</a></td>
+                                        <td><a asp-controller="Course" asp-action="Delete" asp-route-id="@course.Id" class="btn btn-danger btn-sm">Sil</a></td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
-                    }else{
+                    }
+                    else
+                    {
                         <div class="alert alert-info">
                             Kayıtlı Kurs Bulunamadı
                         </div>

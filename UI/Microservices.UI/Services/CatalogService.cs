@@ -19,73 +19,74 @@ namespace Microservices.UI.Services
 
         public async Task<bool> CreateCourseAsync(CourseCreateInput courseCreateInput)
         {
-            var courseRespnose = await _httpClient.PostAsJsonAsync<CourseCreateInput>("courses", courseCreateInput);
+            var courseResponse = await _httpClient.PostAsJsonAsync<CourseCreateInput>("course/addcourse", courseCreateInput);
 
-            return courseRespnose.IsSuccessStatusCode;
+            return courseResponse.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateCourseAsync(CourseUpdateInput courseUpdateInput)
         {
-            var courseRespnose = await _httpClient.PutAsJsonAsync<CourseUpdateInput>("courses", courseUpdateInput);
+            // convert response object them later.
+            var courseResponse = await _httpClient.PutAsJsonAsync<CourseUpdateInput>("course/updatecourse", courseUpdateInput);
 
-            return courseRespnose.IsSuccessStatusCode;
+            return courseResponse.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteCourseAsync(string courseId)
         {
-            var courseRespnose = await _httpClient.DeleteAsync($"courses/{courseId}");
+            var courseResponse = await _httpClient.DeleteAsync($"course/deletecourse/{courseId}");
 
-            return courseRespnose.IsSuccessStatusCode;
+            return courseResponse.IsSuccessStatusCode;
         }
 
         public async Task<List<CourseViewModel>> GetAllCoursesAsync()
         {
-            // https:localhost:5000/services/catalog/courses
-            var courseRespnose = await _httpClient.GetAsync("courses");
+            // https:localhost:5000/services/catalog/course
+            var courseResponse = await _httpClient.GetAsync("course/getallcourses");
 
-            if (!courseRespnose.IsSuccessStatusCode)
+            if (!courseResponse.IsSuccessStatusCode)
             {
                 return null;
             }
 
-            var successResponse = await courseRespnose.Content.ReadFromJsonAsync<Response<List<CourseViewModel>>>();
+            var successResponse = await courseResponse.Content.ReadFromJsonAsync<Response<List<CourseViewModel>>>();
 
             return successResponse.Data;
         }
        
         public async Task<List<CourseViewModel>> GetAllCourseByUserIdAsync(string userId)
         {
-            // https:localhost:5000/services/catalog/courses
-            var courseRespnose = await _httpClient.GetAsync($"courses/getAllByUserId/{userId}");
+            // https:localhost:5000/services/catalog/course
+            var courseResponse = await _httpClient.GetAsync($"course/getcoursesbyuserid/{userId}");
 
-            if (!courseRespnose.IsSuccessStatusCode)
+            if (!courseResponse.IsSuccessStatusCode)
             {
                 return null;
             }
 
-            var successResponse = await courseRespnose.Content.ReadFromJsonAsync<Response<List<CourseViewModel>>>();
+            var successResponse = await courseResponse.Content.ReadFromJsonAsync<Response<List<CourseViewModel>>>();
 
             return successResponse.Data;
         }
 
         public async Task<CourseViewModel> GetByCourseId(string courseId)
         {
-            // https:localhost:5000/services/catalog/courses
-            var courseRespnose = await _httpClient.GetAsync($"courses/{courseId}");
+            // https:localhost:5000/services/catalog/course
+            var courseResponse = await _httpClient.GetAsync($"course/getcoursebyid/{courseId}");
 
-            if (!courseRespnose.IsSuccessStatusCode)
+            if (!courseResponse.IsSuccessStatusCode)
             {
                 return null;
             }
 
-            var successResponse = await courseRespnose.Content.ReadFromJsonAsync<Response<CourseViewModel>>();
+            var successResponse = await courseResponse.Content.ReadFromJsonAsync<Response<CourseViewModel>>();
 
             return successResponse.Data;
         }
 
         public async Task<List<CategoryViewModel>> GetAllCategoriesAsync()
         {
-            // https:localhost:5000/services/catalog/courses
+            // https:localhost:5000/services/catalog/course
             var catalogResponse = await _httpClient.GetAsync("category/getallcategories");
 
             if (!catalogResponse.IsSuccessStatusCode)

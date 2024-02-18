@@ -19,7 +19,7 @@
 
         public DateTime Updated { get; set; }
 
-        public FeatureViewModel FeatureViewModel { get; set; }
+        public FeatureViewModel Feature { get; set; }
 
         public string CategoryId { get; set; }
 
