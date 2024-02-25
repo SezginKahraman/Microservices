@@ -38,6 +38,14 @@ namespace Microservices.UI.Services
 
         public async Task<bool> UpdateCourseAsync(CourseUpdateInput courseUpdateInput)
         {
+            var photoResult = await _photoStockService.UploadPhoto(courseUpdateInput.PhotoFile);
+
+            if (photoResult != null)
+            {
+                await _photoStockService.DeletePhoto(courseUpdateInput.Picture);
+                courseUpdateInput.Picture = photoResult.Url;
+            }
+
             // convert response object them later.
             var courseResponse = await _httpClient.PutAsJsonAsync<CourseUpdateInput>("course/updatecourse", courseUpdateInput);
 

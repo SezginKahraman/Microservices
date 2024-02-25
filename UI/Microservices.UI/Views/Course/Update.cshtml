@@ -47,7 +47,12 @@
                         <input asp-for="Feature.Duration" class="form-control" />
                         <span class="text-danger" asp-validation-for="Feature.Duration"></span>
                     </div>
-                    
+
+                    <div class="mb-3">
+                        <label asp-for="PhotoFile" class="form-label"></label>
+                        <input type="file" asp-for="PhotoFile" class="form-control" />
+                    </div>
+
                     <button type="submit" class="btn btn-success">Güncelle</button>
                 </form>
             </div>
