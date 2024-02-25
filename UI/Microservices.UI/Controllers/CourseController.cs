@@ -36,8 +36,6 @@ namespace Microservices.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CourseCreateInput courseCreateInput)
         {
-            var categories = await _catalogService.GetAllCategoriesAsync();
-
             if (!ModelState.IsValid) return View();
 
             courseCreateInput.UserId = _sharedIdentityService.GetUserId;

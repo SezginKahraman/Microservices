@@ -17,7 +17,7 @@ namespace Microservices.UI.Services
         {
             if (file == null || file.Length <= 0) return null;
 
-            var randomileName = Guid.NewGuid().ToString() + Path.GetExtension(file.Name);
+            var randomileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
 
             using MemoryStream memoryStream = new MemoryStream();
 
@@ -27,7 +27,7 @@ namespace Microservices.UI.Services
 
             multiPartContent.Add(new ByteArrayContent(memoryStream.ToArray()), "file", randomileName);
 
-            var response = await _httpClient.PostAsync("photo/PhotoSave", multiPartContent);
+            var response = await _httpClient.PostAsync("Photo/PhotoSave", multiPartContent);
 
             if (!response.IsSuccessStatusCode) return null;
 

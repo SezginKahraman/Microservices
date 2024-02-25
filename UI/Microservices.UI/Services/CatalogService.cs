@@ -73,7 +73,8 @@ namespace Microservices.UI.Services
 
             successResponse.Data.ForEach(t =>
             {
-                t.Picture = _photoHelper.GetPhotoStockUrl(t.Picture);
+                t.StockPictureUrl = _photoHelper.GetPhotoStockUrl(t.Picture);
+
             });
 
             return successResponse.Data;
@@ -93,7 +94,7 @@ namespace Microservices.UI.Services
 
             successResponse.Data.ForEach(t =>
             {
-                t.Picture = _photoHelper.GetPhotoStockUrl(t.Picture);
+                t.StockPictureUrl = _photoHelper.GetPhotoStockUrl(t.Picture);
             });
 
             return successResponse.Data;
@@ -110,6 +111,8 @@ namespace Microservices.UI.Services
             }
 
             var successResponse = await courseResponse.Content.ReadFromJsonAsync<Response<CourseViewModel>>();
+
+            successResponse.Data.StockPictureUrl = _photoHelper.GetPhotoStockUrl(successResponse.Data.Picture);
 
             return successResponse.Data;
         }

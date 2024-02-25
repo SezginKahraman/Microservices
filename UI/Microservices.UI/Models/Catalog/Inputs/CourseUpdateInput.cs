@@ -4,7 +4,9 @@ namespace Microservices.UI.Models.Catalog.Inputs
 {
     public class CourseUpdateInput
     {
-         [Display(Name = "Resim")]
+        public string Id { get; set; }
+
+        [Display(Name = "Resim")]
         public string? Picture { get; set; }
 
         [Display(Name = "Kullanıcı")]
@@ -22,7 +24,7 @@ namespace Microservices.UI.Models.Catalog.Inputs
         [Required]
         public string Description { get; set; }
 
-        public FeatureCreateInput Feature { get; set; }
+        public FeatureUpdateInput Feature { get; set; }
 
         [Display(Name = "Kategori")]
         [Required]
