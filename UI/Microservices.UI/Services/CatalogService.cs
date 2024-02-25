@@ -42,7 +42,7 @@ namespace Microservices.UI.Services
 
             if (photoResult != null)
             {
-                await _photoStockService.DeletePhoto(courseUpdateInput.Picture);
+                var isDeletePhoto = await _photoStockService.DeletePhoto(courseUpdateInput.Picture);
                 courseUpdateInput.Picture = photoResult.Url;
             }
 

@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(o =>
 {
     o.Authority = builder.Configuration["IdentityServerURL"];
-    o.Audience = "photo_stock";
+    o.Audience = "resource_photo_stock";
     o.RequireHttpsMetadata = false;
 });
 

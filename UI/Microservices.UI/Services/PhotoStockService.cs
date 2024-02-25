@@ -27,7 +27,7 @@ namespace Microservices.UI.Services
 
             multiPartContent.Add(new ByteArrayContent(memoryStream.ToArray()), "file", randomileName);
 
-            var response = await _httpClient.PostAsync("Photo/PhotoSave", multiPartContent);
+            var response = await _httpClient.PostAsync("photo/PhotoSave", multiPartContent);
 
             if (!response.IsSuccessStatusCode) return null;
 

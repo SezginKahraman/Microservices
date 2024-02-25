@@ -77,8 +77,6 @@ namespace Microservices.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(CourseUpdateInput courseUpdateInput)
         {
-            var categories = await _catalogService.GetAllCategoriesAsync();
-
             if (!ModelState.IsValid) return View();
 
             courseUpdateInput.UserId = _sharedIdentityService.GetUserId;
