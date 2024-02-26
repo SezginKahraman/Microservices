@@ -1,4 +1,5 @@
 using Microservices.Shared.Services;
+using Microservices.UI.Extensions;
 using Microservices.UI.Handler;
 using Microservices.UI.Helpers;
 using Microservices.UI.Models;
@@ -44,43 +45,17 @@ builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection(
 
 builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 
-var serviceApiSettings = builder.Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
-
 #endregion [ AppSettings ]
 
 #region [ Http ]
+
+builder.Services.AddHttpClientServices(builder.Configuration);
 
 #region [ Context ]
 
 builder.Services.AddHttpContextAccessor();
 
 #endregion [ Context ]
-
-#region [ Client ]
-
-builder.Services.AddHttpClient<IIdentityService, IdentityService>();
-
-builder.Services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
-
-builder.Services.AddHttpClient<IUserService, UserService>(opt =>
-{
-    opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-// whenever httpclient object is used in catalog service, its base address will be defined, and handler will add to its header the accessToken before the request.
-builder.Services.AddHttpClient<ICatalogService, CatalogService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IPhotoStockService, PhotoStockService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.PhotoStock.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddAccessTokenManagement();
-
-#endregion [ Client ]
 
 #region [ Auth ]
 

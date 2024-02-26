@@ -8,6 +8,6 @@
 
         public string CourseName{ get; set; }
 
-        public Decimal Price { get; set; }
+        public decimal Price { get; set; }
     }
 }
