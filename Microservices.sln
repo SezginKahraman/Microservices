@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{436FF78D-F2F3-474A-8CB1-030A845F2610}"
 	ProjectSection(SolutionItems) = preProject
 		Ports.txt = Ports.txt
+		PostgreSqlScript.txt = PostgreSqlScript.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{65793E74-D3F9-4903-A158-8E47CD1211B4}"
