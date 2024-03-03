@@ -79,7 +79,7 @@
       ],
       "UpstreamPathTemplate": "/services/order/{everything}",
       "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ],
-      "UpstreamScheme": "https",
+      "UpstreamScheme": "http",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "GatewayAuthenticationSchema",
         "AllowedScopes": [ "order_fullpermission" ]

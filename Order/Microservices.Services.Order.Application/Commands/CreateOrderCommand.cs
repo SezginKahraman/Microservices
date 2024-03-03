@@ -13,6 +13,8 @@ namespace Microservices.Services.Order.Application.Commands
     {
         public string BuyerId { get; set; }
 
+        //public int PaymentNo{ get; set; } // will add to match with the payment
+
         public List<OrderItemDto> OrderItems{ get; set; }
 
         public AddressDto Address { get; set; }
