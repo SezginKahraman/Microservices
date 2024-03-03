@@ -1,4 +1,5 @@
-﻿using Microservices.Shared.Core_3_1.BaseController;
+﻿using Microservices.Services.FakePayment.Models;
+using Microservices.Shared.Core_3_1.BaseController;
 using Microservices.Shared.Core_3_1.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,8 +11,9 @@ namespace Microservices.Services.FakePayment.Controllers
     public class FakePaymentsController : BaseController
     {
         [HttpPost]
-        public IActionResult ReceivePayment()
+        public IActionResult ReceivePayment(PaymentDto paymentDto)
         {
+            // payment process
             return CreateActionResultInstance(Response<NoContent>.Success(200));
         }
     }

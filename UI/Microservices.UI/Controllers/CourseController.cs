@@ -36,7 +36,10 @@ namespace Microservices.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CourseCreateInput courseCreateInput)
         {
-            if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
 
             courseCreateInput.UserId = _sharedIdentityService.GetUserId;
 

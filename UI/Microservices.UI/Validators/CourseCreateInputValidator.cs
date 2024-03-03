@@ -10,7 +10,6 @@ namespace Microservices.UI.Validators
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage("İsim alanı boş olamaz.");
             RuleFor(x => x.Description).NotEmpty().WithMessage("Açıklama alanı boş olamaz.");
-            RuleFor(x => x.Picture).NotEmpty().WithMessage("Resim alanı boş olamaz.");
             RuleFor(x => x.Feature.Duration).InclusiveBetween(1, int.MaxValue).WithMessage("Süre alanı boş olamaz.");
             RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Kategori alanı seçiniz.");
 
