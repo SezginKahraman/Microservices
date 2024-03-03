@@ -33,7 +33,7 @@
                                         <td>@course.Name</td>
                                         <td>@course.Price</td>
                                         <td>@course.Feature?.Duration</td>
-                                        <td>@course.CategoryViewModel?.Name</td>
+                                        <td>@course.Category?.Name</td>
                                         <td><a asp-controller="Course" asp-action="Update" asp-route-id="@course.Id" class="btn btn-success btn-sm">Güncelle</a></td>
                                         <td><a asp-controller="Course" asp-action="Delete" asp-route-id="@course.Id" class="btn btn-danger btn-sm">Sil</a></td>
                                     </tr>

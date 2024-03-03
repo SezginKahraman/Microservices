@@ -22,13 +22,14 @@
                         x.AppliedDiscount(Math.Round(x.Price - discountPrice, 2));
                     });
                 }
+
                 return _basketItems;
             }
             set
             {
                 _basketItems = value;
             }
-        }
+        } 
 
         public decimal TotalPrice
         {

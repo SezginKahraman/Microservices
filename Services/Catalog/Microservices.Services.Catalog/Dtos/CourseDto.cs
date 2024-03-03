@@ -26,6 +26,6 @@ namespace Microservices.Services.Catalog.Dtos
 
         public string CategoryId { get; set; }
 
-        public CategoryDto CategoryDto { get; set; }
+        public CategoryDto Category { get; set; }
     }
 }

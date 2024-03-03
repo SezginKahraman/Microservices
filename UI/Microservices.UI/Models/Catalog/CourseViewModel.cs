@@ -30,6 +30,6 @@
 
         public string CategoryId { get; set; }
 
-        public CategoryViewModel CategoryViewModel { get; set; }
+        public CategoryViewModel Category { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microservices.UI.Models.Basket;
+﻿using Microservices.Shared.Core_3_1.Dtos;
+using Microservices.UI.Models.Basket;
 using Microservices.UI.Services.Interfaces;
 
 namespace Microservices.UI.Services
@@ -12,37 +13,77 @@ namespace Microservices.UI.Services
             _httpClient = httpClient;
         }
 
-        public Task<bool> SaveOrUpdate(BasketViewModel basketViewModel)
+        public async Task<bool> SaveOrUpdate(BasketViewModel basketViewModel)
+        {
+            var response = await _httpClient.PostAsJsonAsync<BasketViewModel>("basket", basketViewModel);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<BasketViewModel> Get()
+        {
+            var response = await _httpClient.GetAsync("basket");
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+           var result = await response.Content.ReadFromJsonAsync<Response<BasketViewModel>>();
+           return result.Data;
+        }
+
+        public async Task<bool> Delete()
+        {
+            var result = await _httpClient.DeleteAsync("basket");
+
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task AddBasketItem(BasketItemViewModel basketItemView)
+        {
+            var basket = await Get();
+
+            if (basket != null)
+            {
+                if (!basket.BasketItems.Any(t => t.CourseId == basketItemView.CourseId))
+                {
+                    basket.BasketItems.Add(basketItemView);
+                }
+            }
+            else
+            {
+                basket = new BasketViewModel();
+                basket.BasketItems = new();
+                basket.BasketItems.Add(basketItemView);
+            }
+
+            await SaveOrUpdate(basket);
+        }
+
+        public async Task<bool> RemoveBasketItem(string courseId)
+        {
+            var basket = await Get();
+            if (basket == null) return false;
+            var deleteBasketItem = basket.BasketItems.FirstOrDefault(t => t.CourseId == courseId);
+            if (deleteBasketItem == null) return false;
+            var deleteResult =
+                basket.BasketItems.Remove(deleteBasketItem);
+
+            if (!deleteResult) return false;
+
+            if (!basket.BasketItems.Any())
+            {
+                basket.DiscountCode = null;
+            }
+
+            return await SaveOrUpdate(basket);
+        }
+
+        public async Task<bool> ApplyDiscount(string discountCode)
         {
             throw new NotImplementedException();
         }
 
-        public Task<BasketViewModel> Get()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Delete()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task AddBasketItem(BasketItemViewModel basketItemView)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> RemoveBasketItem(string courseId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> ApplyDiscount(string discountCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> CancelApplyDiscount()
+        public async Task<bool> CancelApplyDiscount()
         {
             throw new NotImplementedException();
         }

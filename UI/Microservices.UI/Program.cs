@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microservices.Shared.Services;
 using Microservices.UI.Extensions;
 using Microservices.UI.Handler;
@@ -5,13 +6,14 @@ using Microservices.UI.Helpers;
 using Microservices.UI.Models;
 using Microservices.UI.Services;
 using Microservices.UI.Services.Interfaces;
+using Microservices.UI.Validators;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+// Add services to the container.          // it is enough to give 1 class for validator, is is going to scan assembly which has that abstract validators.
+builder.Services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CourseCreateInputValidator>());
 
 #region [ IoC Containers ]
 
