@@ -51,7 +51,7 @@ namespace Microservices.UI.Services
                 },
                 OrderItems = basket.BasketItems.Select(t => new OrderItemCreateInput()
                 {
-                    ProductId = int.Parse(t.CourseId),
+                    ProductId = t.CourseId,
                     Price = t.GetCurrentPrice, // discounted price on total price
                     PictureUrl = "",
                     ProductName = t.CourseName

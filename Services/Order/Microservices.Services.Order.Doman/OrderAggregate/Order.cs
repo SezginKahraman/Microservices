@@ -31,7 +31,7 @@ namespace Microservices.Services.Order.Domain.OrderAggregate
             _orderItems = new List<OrderItem>();
         }
 
-        public void AddOrderItem(int productId, string productName, decimal price, string pictureUrl)
+        public void AddOrderItem(string productId, string productName, decimal price, string pictureUrl)
         {
             var existsProduct = _orderItems.Any(x => x.ProductId == productId);
 

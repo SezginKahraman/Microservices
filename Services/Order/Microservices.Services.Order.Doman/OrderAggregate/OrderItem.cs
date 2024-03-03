@@ -9,7 +9,7 @@ namespace Microservices.Services.Order.Domain.OrderAggregate
 {
     public class OrderItem : Entity
     {
-        public int ProductId { get; private set; }
+        public string ProductId { get; private set; }
 
         public string ProductName { get; private set; }
 
@@ -19,7 +19,7 @@ namespace Microservices.Services.Order.Domain.OrderAggregate
 
         //public int OrderId { get; private set; } // shadow property, there is a equaliviliant in database but not in the code.
 
-        public OrderItem(int productId, string productName, decimal price, string pictureUrl)
+        public OrderItem(string productId, string productName, decimal price, string pictureUrl)
         {
             ProductId = productId;
             ProductName = productName;
