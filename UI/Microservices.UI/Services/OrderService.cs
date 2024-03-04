@@ -106,6 +106,8 @@ namespace Microservices.UI.Services
 
             if (!responsePayment) return new OrderSuspendViewModel() { Error = "Ödeme Alınamadı", IsSuccessful = false };
 
+            await _basketService.Delete();
+
             return new OrderSuspendViewModel() { IsSuccessful = true };
         }
 

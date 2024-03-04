@@ -26,7 +26,7 @@ namespace Microservices.Services.FakePayment.Controllers
 
             var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:create-order-service"));
 
-            var createOrderMessageComman = new CreateOrderMessageCommand()
+            var createOrderMessageCommand = new CreateOrderMessageCommand()
             {
                 BuyerId = paymentDto.Order.BuyerId,
                 Address = new Address()
@@ -46,7 +46,7 @@ namespace Microservices.Services.FakePayment.Controllers
                 }).ToList()
             };
 
-            await sendEndpoint.Send<CreateOrderMessageCommand>(createOrderMessageComman);
+            await sendEndpoint.Send<CreateOrderMessageCommand>(createOrderMessageCommand);
 
             return CreateActionResultInstance(Shared.Core_3_1.Dtos.Response<NoContent>.Success(200));
         }

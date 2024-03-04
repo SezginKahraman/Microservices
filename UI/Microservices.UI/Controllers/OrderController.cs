@@ -26,7 +26,8 @@ namespace Microservices.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutInfoInput checkoutInfo)
         {
-            var orderStatus = await _orderService.CreateOrder(checkoutInfo);
+            // senkron payment procces, first create payment, then create order
+            var orderStatus = await _orderService.CreateOrder(checkoutInfo); 
             if (!orderStatus.IsSuccessful)
             {
                 var basket = await _basketService.Get();
@@ -34,6 +35,9 @@ namespace Microservices.UI.Controllers
                 ViewBag.error = orderStatus.Error;
                 return RedirectToAction(nameof(Checkout));
             }
+
+            // asenkron process, first take payment, then send order to the rabbitmq, whenever the order service is available, create order.
+            var orderSuspend = await _orderService.SuspentOrder(checkoutInfo);
 
             return RedirectToAction(nameof(SuccesfulCheckout), new{orderId = orderStatus.OrderId});
         }
