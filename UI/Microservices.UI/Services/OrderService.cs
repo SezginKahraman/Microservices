@@ -67,9 +67,46 @@ namespace Microservices.UI.Services
             return orderCreatedViewModel.Data;
         }
 
-        public async Task SuspentOrder(CheckoutInfoInput checkoutInfoInput)
+        public async Task<OrderSuspendViewModel> SuspentOrder(CheckoutInfoInput checkoutInfoInput)
         {
-            throw new NotImplementedException();
+            var basket = await _basketService.Get();
+
+            var orderCreateInput = new OrderCreateInput()
+            {
+                BuyerId = _sharedIdentityService.GetUserId,
+                Address = new AddressCreateInput()
+                {
+                    Province = checkoutInfoInput.Province,
+                    District = checkoutInfoInput.District,
+                    Line = checkoutInfoInput.Line,
+                    Street = checkoutInfoInput.Street,
+                    ZipCode = checkoutInfoInput.ZipCode
+                },
+                OrderItems = basket.BasketItems.Select(t => new OrderItemCreateInput()
+                {
+                    ProductId = t.CourseId,
+                    Price = t.GetCurrentPrice, // discounted price on total price
+                    PictureUrl = "",
+                    ProductName = t.CourseName
+                }).ToList()
+            };
+
+            var payment = new PaymentInfoInput()
+            {
+                CardName = checkoutInfoInput.CardName,
+                CardNumber = checkoutInfoInput.CardNumber,
+                CVV = checkoutInfoInput.CVV,
+                Expiration = checkoutInfoInput.Expiration,
+                TotalPrice = basket.TotalPrice,
+                Order = orderCreateInput,
+            };
+
+
+            var responsePayment = await _paymentService.ReceivePayment(payment);
+
+            if (!responsePayment) return new OrderSuspendViewModel() { Error = "Ödeme Alınamadı", IsSuccessful = false };
+
+            return new OrderSuspendViewModel() { IsSuccessful = true };
         }
 
         public async Task<List<OrderViewModel>> GetOrder()

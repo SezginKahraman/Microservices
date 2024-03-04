@@ -1,4 +1,6 @@
-﻿namespace Microservices.UI.Models.FakePayments
+﻿using Microservices.UI.Models.Order.Inputs;
+
+namespace Microservices.UI.Models.FakePayments
 {
     public class PaymentInfoInput
     {
@@ -11,5 +13,7 @@
         public string CVV { get; set; }
 
         public decimal TotalPrice{ get; set; }
+
+        public OrderCreateInput Order { get; set; }
     }
 }
