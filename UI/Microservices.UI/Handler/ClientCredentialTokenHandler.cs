@@ -14,6 +14,7 @@ namespace Microservices.UI.Handler
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            // get the bearer in each req
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", await _clientCredentialTokenService.GetToken());
 
             var response = await base.SendAsync(request, cancellationToken);
